@@ -65,8 +65,17 @@
 
         });
 
+        var country = {};
+        fetch("country.json").then((response) => response.json())
+        .then((data) => country = data);
+
         function handleMouseClick() {
-            alert("당신은 구역" + d3.select(this).attr("name") + "를 선택하셨습니다.");
+            var clicked_name = d3.select(this).attr("name");
+            const random = Math.floor(Math.random() * country[clicked_name].length);
+            
+            alert("당신은 구역" + clicked_name + "를 선택하셨습니다.");
+            alert(country[clicked_name][random]+"에서 태어났습니다.");
+            
         }
 
         function handleMouseOver() {
