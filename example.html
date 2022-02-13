@@ -8,9 +8,61 @@
     .zone_label {
         font-weight: 900;
     }
+    .a:hover {
+        fill: #FFA500;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+    .b:hover {
+        fill: #FFD700;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+    .c:hover {
+        fill: #E06F1F;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+    .d:hover {
+        fill: #FF0000;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+    .e:hover {
+        fill: #FF1A40;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+    .f:hover {
+        fill: #FF00FF;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+    .g:hover {
+        fill: #8A2BE2;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+    .h:hover {
+        fill: #0000FF;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+    .i:hover {
+        fill: #00FF00;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+    .j:hover {
+        fill: #454D66;
+        cursor: pointer;
+        opacity: 0.5;
+    }
 </style>
 
 <body>
+    <h1>밸런스게임</h1>
+    <div id="main"></div>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://unpkg.com/topojson@3"></script>
     <script>
@@ -22,12 +74,9 @@
             .scale(135)
             .rotate([-160, 0]); 
 
-        var svg = d3.select("body").append("svg")
+        var svg = d3.select("div").append("svg")
             .attr("width", width)
             .attr("height", height);
-
-        var path = d3.geoPath()
-            .projection(projection);
 
         d3.json("section.json").then(function (data) {
             svg.append("g").selectAll("polygon")
@@ -41,10 +90,11 @@
                 .attr("name", function (d) {
                     return d.name;
                 })
+                .attr("class", function (d) {
+                    return d.name;
+                })
                 .attr("fill", "transparent")
-                .on("click", handleMouseClick)
-                .on("mouseover", handleMouseOver)
-                .on("mouseout", handleMouseOut);
+                .on("click", handleMouseClick);
             svg.selectAll("text")
                 .data(data.Polygons)
                 .enter()
@@ -56,6 +106,10 @@
         });
 
         var g = svg.append("g");
+
+        var path = d3.geoPath()
+            .projection(projection);
+
         d3.json("world-110m2.json").then(function (topology) {
 
             g.selectAll("path")
@@ -87,6 +141,7 @@
         }
         
     </script>
+
 </body>
 
 </html>
