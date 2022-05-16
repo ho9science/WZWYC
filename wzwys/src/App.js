@@ -1,115 +1,90 @@
-import logo from "./logo.svg";
 import "./App.css";
-import * as d3 from "d3";
-import * as topojson from "topojson-client";
 import React, { useState, useEffect } from "react";
+import styled from '@emotion/styled'
+import Worldmap from "./view/Worldmap";
+import country from "./country.json";
+import section from "./section.json";
+import world from "./world-110m2.json";
 
-const width = 1060;
-const height = 500;
-const country = getCountryLabel();
+const Layout = styled.div({
+  position: 'absolute',
+  width: '100%',
+  height: '100%'
+})
+const Header = styled.header`
+background-color: #24292e;
+color: #fff;
+    -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    box-shadow: none;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    position: static;
+`
+const HeaderRow = styled.div`
+min-height: 64px;
+`
+const Main = styled.div`
+  max-width: 1600px,
+  width: calc(100% - 16px),
+  margin: 0 auto,
+  display: flex
+`
+  
+const Title = styled.h1`
+padding: 24px;
+`
+const Content = styled.div`
+  // box-sizing: border-box;
+  //   display: flex;
+  //   flex-flow: row wrap;
+  //   width: calc(100% + 24px);
+`
 
-async function getCountryLabel() {
-  var country = {};
-  fetch("country.json")
-  .then((response) => response.json())
-  .then((data) => (country = data));
-  return country;
-}
-
-function getSectionMap(d3, svg) {
-  d3.json("section.json").then(function (data) {
-    svg
-      .append("g")
-      .selectAll("polygon")
-      .data(data.Polygons)
-      .enter()
-      .append("polygon")
-      .attr("points", function (d) {
-        return d.points
-          .map(function (d) {
-            return [d.x, d.y].join(",");
-          })
-          .join(" ");
-      })
-      .attr("stroke", "black")
-      .attr("stroke-width", 2)
-      .attr("name", function (d) {
-        return d.name;
-      })
-      .attr("class", function (d) {
-        return d.name;
-      })
-      .attr("fill", "transparent")
-      .on("click", handleMouseClick);
-    svg
-      .selectAll("text")
-      .data(data.Polygons)
-      .enter()
-      .append("text")
-      .attr("class", "zone_label")
-      .attr("x", function (d) {
-        return d.center.x;
-      })
-      .attr("y", function (d) {
-        return d.center.y;
-      })
-      .text(function (d) {
-        return d.name;
-      });
-  });
-}
-
-function getWorlMap(g, path) {
-  d3.json("world-110m2.json").then(function (topology) {
-    g.selectAll("path")
-      .data(topojson.feature(topology, topology.objects.countries).features)
-      .enter()
-      .append("path")
-      .attr("d", path);
-  });
-}
-
-function handleMouseClick() {
-  var clicked_name = this.name;
-  const random = Math.floor(Math.random() * country[clicked_name].length);
-
-  alert("당신은 구역" + clicked_name + "를 선택하셨습니다.");
-  alert(country[clicked_name][random] + "에서 태어났습니다.");
-}
-
-const initializeD3 = () => {
-  var svg = d3
-    .select("#main")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-  var g = svg.append("g");
-  var projection = d3
-    .geoMercator()
-    .center([0, 35])
-    .scale(135)
-    .rotate([-160, 0]);
-  var path = d3.geoPath().projection(projection);
-
-  getSectionMap(d3, svg);
-  getWorlMap(g, path);
-}
-
+const Map = styled.div`
+  background-color: rgb(255, 255, 255);
+  color: rgb(97, 97, 97);
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: none;
+  background-image: none;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(144, 202, 249, 0.46);
+`
 function App() {
-
   return (
-    <div className="">
-      <h1>
-        다시 태어난다면
-        <br />
-        <span>— 어느 구역에서 태어나시겠습니까? </span>
-        <span role="img" aria-label="Party popper emojis">
-          🗺️
-        </span>
-      </h1>
-      <div id="main" ref={initializeD3}></div>
-    </div>
+    <>
+      <Layout>
+        <Header>
+          <HeaderRow>
+            <span className="mdl-layout-title">WZWYC</span>
+          </HeaderRow>
+        </Header>
+        <Main>
+          <Content>
+            <Title>
+              다시 태어난다면
+              <br />
+              <span>— 어느 구역에서 태어나시겠습니까? </span>
+              <span role="img" aria-label="Party popper emojis">
+                🗺️
+              </span>
+            </Title>
+            <Worldmap data={[country, section ,world]}/>
+          </Content>
+          </Main>
+      </Layout>
+    </>
   );
 }
 
