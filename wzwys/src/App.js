@@ -6,6 +6,7 @@ import country from "./country.json";
 import section from "./section.json";
 import world from "./world-110m2.json";
 
+
 const Layout = styled.div({
   position: 'absolute',
   width: '100%',
@@ -45,10 +46,69 @@ const Title = styled.h1`
 padding: 24px;
 `
 const Content = styled.div`
-  // box-sizing: border-box;
-  //   display: flex;
-  //   flex-flow: row wrap;
-  //   width: calc(100% + 24px);
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row wrap;
+  width: calc(100% + 24px);
+  
+  & path {
+    stroke: white;
+    stroke-width: 0.25px;
+    fill: grey;
+}
+& .zone_label {
+    font-weight: 900;
+}
+& .a:hover {
+    fill: #FFA500;
+    cursor: pointer;
+    opacity: 0.5;
+}
+& .b:hover {
+    fill: #FFD700;
+    cursor: pointer;
+    opacity: 0.5;
+}
+& .c:hover {
+    fill: #E06F1F;
+    cursor: pointer;
+    opacity: 0.5;
+}
+& .d:hover {
+    fill: #FF0000;
+    cursor: pointer;
+    opacity: 0.5;
+}
+& .e:hover {
+    fill: #FF1A40;
+    cursor: pointer;
+    opacity: 0.5;
+}
+& .f:hover {
+    fill: #FF00FF;
+    cursor: pointer;
+    opacity: 0.5;
+}
+& .g:hover {
+    fill: #8A2BE2;
+    cursor: pointer;
+    opacity: 0.5;
+}
+& .h:hover {
+    fill: #0000FF;
+    cursor: pointer;
+    opacity: 0.5;
+}
+& .i:hover {
+    fill: #00FF00;
+    cursor: pointer;
+    opacity: 0.5;
+}
+& .j:hover {
+    fill: #454D66;
+    cursor: pointer;
+    opacity: 0.5;
+}
 `
 
 const Map = styled.div`

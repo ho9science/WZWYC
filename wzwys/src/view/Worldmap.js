@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
@@ -6,6 +6,8 @@ const width = 1060;
 const height = 500;
 var country = {};
 const Worldmap = ({data}) => {
+  const [selectedZone, setSelectedZone] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
     const svgRef = useRef(null);
     const countryData = data[0];
     const sectionData = data[1];
@@ -56,7 +58,7 @@ const Worldmap = ({data}) => {
           return d.name;
         })
         .attr("class", function (d) {
-          return d.name;
+          return d.name.toLowerCase();
         })
         .attr("fill", "transparent")
         .on("click", handleMouseClick);
@@ -81,7 +83,7 @@ const Worldmap = ({data}) => {
       const topology = worldMapData;
       g.selectAll("path")
         .data(topojson.feature(topology, topology.objects.countries).features)
-        .enter()
+        .enter() 
         .append("path")
         .attr("d", path);
     }
@@ -89,11 +91,17 @@ const Worldmap = ({data}) => {
     function handleMouseClick() {
       var clicked_name = this.getAttribute("name");
       const random = Math.floor(Math.random() * country[clicked_name].length);
-      // setselectedzone(clicked_name);
-      // setselectedcountry(country[clicked_name][random]);
+      setSelectedZone(clicked_name);
+      setSelectedCountry(country[clicked_name][random]);
     }
     return (
-        <svg id={"main"} ref={svgRef}></svg>
+      <>
+      <svg id={"main"} ref={svgRef}></svg>
+        <div>
+          <div>"{selectedZone}" 존을 선택하셨습니다.</div>
+          <div>{selectedCountry}에서 태어났습니다.</div>
+        </div>
+      </>
     );
 }
 
