@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
+import { Dialog } from '@mui/material';
+import DialogTitle from '@mui/material/DialogTitle';
+import ListItemText from '@mui/material/ListItemText';
 
 const width = 1060;
 const height = 500;
@@ -93,14 +96,34 @@ const Worldmap = ({data}) => {
       const random = Math.floor(Math.random() * country[clicked_name].length);
       setSelectedZone(clicked_name);
       setSelectedCountry(country[clicked_name][random]);
+      handleOpen();
     }
+
+    const [open, setOpen] = React.useState(false);
+  
+    const handleOpen = () => {
+      setOpen(true);
+    };
+    
+    const handleClose = () => {
+      setOpen(false);
+    };
+
+    
     return (
       <>
       <svg id={"main"} ref={svgRef}></svg>
-        <div>
-          <div>"{selectedZone}" 존을 선택하셨습니다.</div>
-          <div>{selectedCountry}에서 태어났습니다.</div>
-        </div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+      >
+        <DialogTitle>
+          "{selectedZone}" 존을 선택하셨습니다.
+          </DialogTitle>
+          <ListItemText>
+          {selectedCountry}에서 태어났습니다.
+          </ListItemText>
+        </Dialog>
       </>
     );
 }

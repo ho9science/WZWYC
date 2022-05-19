@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from '@emotion/styled'
 import Worldmap from "./view/Worldmap";
 import country from "./country.json";
@@ -43,7 +43,7 @@ const Main = styled.div`
 `
   
 const Title = styled.h1`
-padding: 24px;
+padding: 10px 20px;
 `
 const Content = styled.div`
   box-sizing: border-box;
@@ -111,25 +111,20 @@ const Content = styled.div`
 }
 `
 
-const Map = styled.div`
+const WorldMapLayout = styled.div`
   background-color: rgb(255, 255, 255);
   color: rgb(97, 97, 97);
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   box-shadow: none;
   background-image: none;
   border-radius: 12px;
-  overflow: hidden;
+  overflow-y: auto;
   border: 1px solid rgba(144, 202, 249, 0.46);
 `
 function App() {
   return (
     <>
       <Layout>
-        <Header>
-          <HeaderRow>
-            <span className="mdl-layout-title">WZWYC</span>
-          </HeaderRow>
-        </Header>
         <Main>
           <Content>
             <Title>
@@ -140,7 +135,9 @@ function App() {
                 🗺️
               </span>
             </Title>
-            <Worldmap data={[country, section ,world]}/>
+            <WorldMapLayout>
+              <Worldmap data={[country, section ,world]}/>
+            </WorldMapLayout>
           </Content>
           </Main>
       </Layout>
