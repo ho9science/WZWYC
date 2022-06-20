@@ -1,22 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 import { Dialog } from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import ListItemText from "@mui/material/ListItemText";
 
-const width = 1060;
+const width = 950;
 const height = 500;
-var country = {};
-const Worldmap = ({ data }) => {
+
+const Worldmap = ({ country, section, world }) => {
   const [selectedZone, setSelectedZone] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
-  const svgRef = useRef(null);
-  const countryData = data[0];
-  const sectionData = data[1];
-  const worldMapData = data[2];
+  const [open, setOpen] = React.useState(false);
 
-  country = getCountryLabel();
+  const svgRef = useRef(null);
 
   useEffect(() => {
     const svgEl = d3.select(svgRef.current);
@@ -35,15 +32,12 @@ const Worldmap = ({ data }) => {
     getWorldMap(g, path);
   }, []);
 
-  function getCountryLabel() {
-    return countryData;
-  }
   // section
   function getSectionMap(svg) {
     svg
       .append("g")
       .selectAll("polygon")
-      .data(sectionData.Polygons)
+      .data(section.Polygons)
       .enter()
       .append("polygon")
       .attr("points", function (d) {
@@ -65,7 +59,7 @@ const Worldmap = ({ data }) => {
       .on("click", handleMouseClick);
     svg
       .selectAll("text")
-      .data(sectionData.Polygons)
+      .data(section.Polygons)
       .enter()
       .append("text")
       .attr("class", "zone_label")
@@ -81,7 +75,7 @@ const Worldmap = ({ data }) => {
   }
   // world map
   function getWorldMap(g, path) {
-    const topology = worldMapData;
+    const topology = world;
     g.selectAll("path")
       .data(topojson.feature(topology, topology.objects.countries).features)
       .enter()
@@ -96,8 +90,6 @@ const Worldmap = ({ data }) => {
     setSelectedCountry(country[clicked_name][random]);
     handleOpen();
   }
-
-  const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
     setOpen(true);

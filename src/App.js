@@ -1,4 +1,3 @@
-import "./App.css";
 import React from "react";
 import styled from "@emotion/styled";
 import Worldmap from "./view/Worldmap";
@@ -6,17 +5,16 @@ import country from "./country.json";
 import section from "./section.json";
 import world from "./world-110m2.json";
 
-const Layout = styled.div({
-  position: "absolute",
-  width: "100%",
-  height: "100%",
-});
+const Layout = styled.div`
+  width: "100%";
+  height: "100%";
+`;
 
 const Main = styled.div`
-  max-width: 1600px,
-  width: calc(100% - 16px),
-  margin: 0 auto,
-  display: flex
+  max-width: 1060px;
+  width: calc(100% - 16px);
+  margin: 0 auto;
+  display: flex;
 `;
 
 const Title = styled.h1`
@@ -96,8 +94,8 @@ const WorldMapLayout = styled.div`
   background-image: none;
   border-radius: 12px;
   overflow-y: auto;
-  border: 1px solid rgba(144, 202, 249, 0.46);
 `;
+
 function App() {
   return (
     <>
@@ -113,7 +111,9 @@ function App() {
               </span>
             </Title>
             <WorldMapLayout>
-              <Worldmap data={[country, section, world]} />
+              <Worldmap country={country} 
+                section={section} 
+                world={world} />
             </WorldMapLayout>
           </Content>
         </Main>
